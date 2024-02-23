@@ -19,25 +19,60 @@ const db = new pg.Client({
 db.connect().then(() => console.log('Connected to the database'))
     .catch(err => console.error('Failed to connect to the database', err.stack));
 
+
+let names = ['Abhi', 'Bob', 'Carry', 'Dobby', 'Eno'];
+const transactions = [{
+                        id: 1,
+                        name: 'Abhi',
+                        amount: 150
+                    }, 
+                    {
+                        id: 2,
+                        name: 'Bob',
+                        amount: 100
+                    }];
+
 app.get('/', (req, res) => {
     res.json('Hello World');
 });
 
-let names = ['John', 'Doe', 'Jane', 'Dom'];
+const userCredential = ['a', '1234'];
+const usernames = ['a', 'b', 'c', 'd', 'e'];
 
-app.get('/insert', async (req, res) => {
-    try {
-        await db.query('CREATE TABLE IF NOT EXISTS usersss (payor varchar(50), ($1) int, ($2) int, ($3) int, ($4) int)', names);
-        // await db.query('CREATE TABLE IF NOT EXISTS test (id SERIAL PRIMARY KEY, name VARCHAR(50), email VARCHAR(50))');
-        // const result = item.rows;
-        // console.log(result);
-        // res.json(result);
-        res.json('Hello World');
+app.get('/login', async (req, res) => {
+    try{
+        await db.query('INSERT INTO users (name, password) VALUES ($1, $2)', userCredential);
+        res.send('User created successfully');
     }
-    catch (err) {
+    catch(err){
         console.log(err);
     }
 });
+
+app.get('/users', async (req, res) => {
+    try{
+        const result = await db.query('SELECT serial_no FROM users WHERE password = $1', [userCredential[1]]);
+        const serial_no = result.rows[0].serial_no;
+        usernames.forEach(async user => {
+            await db.query('INSERT INTO groups (serial_no, name) VALUES ($1, $2)', [serial_no, user]);
+        });    
+        
+        res.json(serial_no);
+    }
+    catch(err){
+        console.log(err);
+    }
+});
+
+app.get('/transactions', async (req, res) => {
+    try{
+
+    }
+    catch(err){
+        console.log(err);
+    }
+});
+
 
 
 app.listen(process.env.PORT, (req, res) => {
