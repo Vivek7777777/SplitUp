@@ -1,22 +1,25 @@
 CREATE TABLE users(
-	serial_no SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	name VARCHAR(30),
 	password VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE groups(
-	serial_no INT,
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(30) UNIQUE
+	name VARCHAR(30),
+	given INT,
+	taken INT
 );
 
 CREATE TABLE transactions(
-	serial_no INT,
 	payor VARCHAR(30),
-	payee VARCHAR(30),
 	amount INT,
-	ispaid BOOLEAN,
-    created_at DATE DEFAULT Now() 
+    date DATE DEFAULT NOW(), 
+	user1 INT,
+	user2 INT,
+	user3 INT,
+	user4 INT,
+	usern INT,
 );
 
 
