@@ -2,9 +2,15 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { increment } from './state/slice/counterSlice'
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+  const num = useSelector(state => state.counter.count)
+  const dispatch = useDispatch()
+  console.log(num);
+
 
   return (
     <>
@@ -18,8 +24,8 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+        <button onClick={() => dispatch(increment())}>
+          count is {num}
         </button>
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
